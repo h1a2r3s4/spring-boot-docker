@@ -8,8 +8,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-
-                // Run Maven on a Unix agent.
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
@@ -17,14 +15,26 @@ pipeline {
         stage('Docker') {
             steps {
                 sh "docker build -t springbootapp ."
+            }
+        }
+
+        stage('Docker Build'){
+            agent {
+              docker {
+                image 'springbootapp'
+                reuseNode true
+              }
+            }
+            steps {
                 sh 'docker run -d springbootapp'
             }
         }
-        post {
-            success {
-                junit '**/target/surefire-reports/TEST-*.xml'
-                archiveArtifacts 'target/*.jar'
-            }
-        }
+
     }
+     post {
+        success {
+           junit '**/target/surefire-reports/TEST-*.xml'
+           archiveArtifacts 'target/*.jar'
+        }
+     }
 }

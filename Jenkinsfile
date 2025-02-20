@@ -10,40 +10,20 @@ pipeline {
     }
 
     stages {
-
-        stage('Example Username/Password') {
-            steps {
-                 sh 'echo "Service user is $SERVICE_CREDS_USR"'
-                 sh 'echo "Service password is $SERVICE_CREDS_PSW"'
-            }
-        }
-
-
         stage('Build') {
+        agent {
+                        docker {
+                            image 'mithra2020/springbootapp'
+                            reuseNode true
+                        }
+                    }
+
             steps {
 
                 // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean install"
-            }
-
-        }
-        stage('Docker') {
-            steps {
-                sh "docker build -t mithra2020/springbootapp ."
-                sh 'docker images'
+                sh "ls -la"
             }
         }
-
-        stage('Docker Push') {
-              agent any
-              steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                  sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                  sh 'docker rmi mithra2020/springbootapp'
-                }
-              }
-        }
-
     }
      post {
      success {

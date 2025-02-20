@@ -26,7 +26,7 @@ pipeline {
               }
             }
             steps {
-                sh 'docker run springbootapp'
+                sh 'docker run -d springbootapp'
             }
         }
 

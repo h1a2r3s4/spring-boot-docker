@@ -39,7 +39,7 @@ pipeline {
               steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                   sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                  sh 'docker push mithra2020/springbootapp'
+                  sh 'docker rmi mithra2020/springbootapp'
                 }
               }
         }

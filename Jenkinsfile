@@ -5,7 +5,20 @@ pipeline {
         maven "M3"
     }
 
+    environment {
+        SERVICE_CREDS = credentials('dockerhub')
+    }
+
     stages {
+
+        stage('Example Username/Password') {
+            steps {
+                 sh 'echo "Service user is $SERVICE_CREDS_USR"'
+                 sh 'echo "Service password is $SERVICE_CREDS_PSW"'
+            }
+        }
+
+
         stage('Build') {
             steps {
 
@@ -16,7 +29,7 @@ pipeline {
         }
         stage('Docker') {
             steps {
-                sh "docker build -t springbootapp ."
+                sh "docker build -t mithra2020/springbootapp ."
                 sh 'docker images'
             }
         }
@@ -25,7 +38,7 @@ pipeline {
               agent any
               steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                  sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                  sh "docker login -u ${env.SERVICE_CREDS_USR} -p ${env.SERVICE_CREDS_USR}"
                   sh 'docker push springbootapp'
                 }
               }

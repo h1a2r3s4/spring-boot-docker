@@ -18,17 +18,17 @@ pipeline {
             }
         }
 
-        stage('Docker Build'){
-            agent {
-              docker {
-                image 'springbootapp'
-                reuseNode true
-              }
-            }
+//         stage('Docker Build'){
+//             agent {
+//               docker {
+//                 image 'springbootapp'
+//                 reuseNode true
+//               }
+//             }
 //             steps {
 //                 sh 'docker run -d springbootapp'
 //             }
-        }
+//         }
 
     }
      post {

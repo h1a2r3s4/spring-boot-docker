@@ -1,19 +1,15 @@
 pipeline {
   agent any
   stages {
-    stage('Maven Install') {
+    stage('Docker Build') {
       agent {
         docker {
-          image 'maven:3.9.9'
+            image 'maven:3.9.9'
+            reuseNode true
         }
       }
       steps {
         sh 'mvn clean install'
-      }
-    }
-    stage('Docker Build') {
-      agent any
-      steps {
         sh 'docker build -t springbootapp .'
       }
     }

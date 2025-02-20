@@ -2,7 +2,7 @@ pipeline {
     agent any
 
      tools {
-            maven "Maven 3.9.9"
+            maven "M3"
       }
 
     stages {
@@ -22,7 +22,6 @@ pipeline {
             steps {
                 sh '''
                     ls -la
-                    mvn --version
                     mvn clean install
                     ls -la
                 '''

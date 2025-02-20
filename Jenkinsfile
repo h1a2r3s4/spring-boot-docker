@@ -17,6 +17,20 @@ pipeline {
                 sh "docker build -t springbootapp ."
             }
         }
+
+         stage('Build') {
+            agent {
+                 docker {
+                    image 'springbootapp'
+                    reuseNode true
+                 }
+            }
+            steps {
+                sh '''
+                ls -la
+                '''
+            }
+         }
     }
      post {
         success {

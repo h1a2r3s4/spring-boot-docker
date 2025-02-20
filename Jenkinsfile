@@ -25,9 +25,9 @@ pipeline {
                 reuseNode true
               }
             }
-            steps {
-                sh 'docker run -d springbootapp'
-            }
+//             steps {
+//                 sh 'docker run -d springbootapp'
+//             }
         }
 
     }

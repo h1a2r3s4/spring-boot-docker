@@ -17,7 +17,7 @@ pipeline {
         stage('Docker') {
             steps {
                 sh "docker build -t springbootapp ."
-                sh 'docker images'
+                sh 'docker rmi -a'
             }
         }
 

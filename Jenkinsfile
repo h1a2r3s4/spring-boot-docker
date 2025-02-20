@@ -18,7 +18,7 @@ pipeline {
             }
         }
 
-         stage('Build') {
+         stage('Docker Build') {
             agent {
                  docker {
                     image 'springbootapp'

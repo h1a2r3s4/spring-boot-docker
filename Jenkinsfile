@@ -38,8 +38,8 @@ pipeline {
               agent any
               steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                  sh "docker login -u ${env.SERVICE_CREDS_USR} -p ${env.SERVICE_CREDS_PWD}"
-                  sh 'docker push springbootapp'
+                  sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                  sh 'docker push mithra2020/springbootapp'
                 }
               }
         }

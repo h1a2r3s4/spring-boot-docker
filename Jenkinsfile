@@ -1,31 +1,30 @@
 pipeline {
     agent any
 
-     tools {
-            maven "M3"
-      }
+    tools {
+        maven "M3"
+    }
 
     stages {
+        stage('Build') {
+            steps {
+
+                // Run Maven on a Unix agent.
+                sh "mvn -Dmaven.test.failure.ignore=true clean install"
+            }
+
+        }
         stage('Docker') {
             steps {
-              sh 'docker build -t springboot .'
+                sh "docker build -t springbootapp ."
             }
         }
 
-        stage('Build') {
-            agent {
-                docker {
-                    image 'springboot'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-                    ls -la
-                    mvn clean install
-                    ls -la
-                '''
-            }
-        }
     }
+     post {
+     success {
+           junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.jar'
+           }
+     }
 }
